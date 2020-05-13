@@ -1,0 +1,206 @@
+#include<iostream>
+#include <string>
+#include <list>
+
+#define big_buckets 1000
+#define small_buckets 10
+
+using namespace std;
+
+struct small_data_type
+{
+	string file_name;
+	unsigned short word_count=1;
+};
+struct big_data_type
+{
+	string word_name;
+	list<small_data_type> small_arr[small_buckets];
+	unsigned short max_small_elements=3;
+};
+
+class inverted_index
+{
+private:
+	list<big_data_type> big_array[big_buckets];
+	unsigned short big_hash_fun(string word);
+	unsigned short small_hash_fun(string file);
+	bool is_word_found(string word);
+	void insert_word(string word);
+	bool is_file_found(string word,string file);
+	void insert_file(string word,string file);
+	void increase_word_count(string word,string file);
+
+public:
+	void build_inverted_index(string word,string file);
+	void traverse_inverted_index();  // just for testing , will  be removed when building real database
+};
+unsigned short inverted_index:: big_hash_fun(string word)
+{
+	unsigned short total=0;
+	unsigned short len = word.length();
+	for (unsigned short k=0;k<len;k++)       //open hashing
+	{
+		total += int(word[k]);
+	}
+	return total%big_buckets;
+
+}
+unsigned short inverted_index:: small_hash_fun(string file)
+{
+	unsigned short total=0;
+	unsigned short len = file.length();
+	for (unsigned short k=0;k<len;k++)   //open hashing
+	{
+		total += int(file[k]);
+	}
+
+	return total%small_buckets;
+}
+bool inverted_index::is_word_found(string word)
+{
+	unsigned short big_index = big_hash_fun(word);
+	for (auto it=(big_array[big_index]).begin();it!=(big_array[big_index]).end();it++)
+	{
+		if (it->word_name == word)
+			return true;
+	}
+	return false;
+}
+void inverted_index::insert_word(string word)
+{
+	unsigned short big_index = big_hash_fun(word);
+	big_data_type temp_instance;
+	temp_instance.word_name = word;
+	(big_array[big_index]).push_back(temp_instance);
+}
+
+bool inverted_index::is_file_found(string word,string file)
+{
+	unsigned short big_index = big_hash_fun(word);
+	unsigned short small_index = small_hash_fun(file);
+
+	for (auto big_it=(big_array[big_index]).begin();big_it!=(big_array[big_index]).end();big_it++)
+		{
+			if (big_it->word_name == word)
+			{
+				for (unsigned short i=0;i<small_buckets;i++)
+				{
+					small_index = (small_index+i)%small_buckets;
+					auto small_it=((big_it->small_arr)[small_index]).begin();
+					while (small_it!=((big_it->small_arr)[small_index]).end())
+					{
+						if (small_it->file_name==file)
+							return true;
+						small_it++;
+					}
+					if ((((big_it->small_arr)[small_index]).size())<big_it->max_small_elements)
+						return false;
+				}
+				return false;
+
+			}
+		}
+	return false;
+}
+
+void inverted_index::insert_file(string word,string file)
+{
+	unsigned short big_index = big_hash_fun(word);
+	unsigned short small_index = small_hash_fun(file);
+	unsigned short i;
+	for (auto it=(big_array[big_index]).begin();it!=(big_array[big_index]).end();it++)
+	{
+		if (it->word_name == word)
+		{
+
+			for (i=small_index;i<=small_buckets+small_index;i++)       //closing hashing
+			{
+				small_index = i%small_buckets;
+				if ((((it->small_arr)[small_index]).size())<(it->max_small_elements))
+				{
+					small_data_type temp_instance;
+					temp_instance.file_name = file;
+					((it->small_arr)[small_index]).push_back(temp_instance);
+					break;
+				}
+
+			}
+			if (i==small_buckets+small_index)
+			{
+				(it->max_small_elements)++;
+				small_data_type temp_instance;
+				temp_instance.file_name = file;
+				((it->small_arr)[small_index]).push_back(temp_instance);
+			}
+		}
+	}
+
+}
+
+void inverted_index::increase_word_count(string word,string file)
+{
+	unsigned short big_index = big_hash_fun(word);
+	unsigned short small_index = small_hash_fun(file);
+	unsigned short i;
+	for (auto big_it=(big_array[big_index]).begin();big_it!=(big_array[big_index]).end();big_it++)
+	{
+		if (big_it->word_name == word)
+		{
+			for (i=small_index;i<=small_buckets+small_index;i++)
+			{
+				small_index = i%small_buckets;
+				for (auto small_it=((big_it->small_arr)[small_index]).begin();
+						small_it!=((big_it->small_arr)[small_index]).end();
+						small_it++)
+				{
+					if (small_it->file_name == file)
+						(small_it->word_count)++;
+				}
+
+
+			}
+		}
+	}
+}
+
+void inverted_index::build_inverted_index(string word,string file)
+{
+	if (is_word_found(word))
+	{
+		if (is_file_found(word,file))
+			increase_word_count(word,file);
+		else
+			insert_file(word,file);
+	}
+	else
+	{
+		insert_word(word);
+		insert_file(word,file);
+	}
+}
+
+void inverted_index::traverse_inverted_index()
+{
+for (unsigned short i=0;i<big_buckets;i++)
+{
+	if (!((big_array[i]).empty()))
+	{
+		for (auto big_it=(big_array[i]).begin();big_it!=(big_array[i]).end();big_it++)
+		{
+			cout << "\tthe word: " << big_it->word_name << " exists in \n\n";
+			for (unsigned short j=0;j<small_buckets;j++)
+			{
+				if (!(((big_it->small_arr)[j]).empty()))
+				{
+					for (auto small_it=((big_it->small_arr)[j]).begin();
+							small_it!=((big_it->small_arr)[j]).end();small_it++)
+					{
+						cout << small_it->file_name << " and repeated " << small_it->word_count <<" time(s)\n";
+					}
+				}
+			}
+		}
+	}
+}
+}
