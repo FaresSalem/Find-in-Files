@@ -38,7 +38,9 @@ bool MainWindow::buildInverted(QDir dir)
     }
     return !done;
 }
-void MainWindow::on_comboReplace_2_currentTextChanged(const QString &arg1)
+
+
+void MainWindow::on_comboBox_Directory_editTextChanged(const QString &arg1)
 {
     buildInverted(arg1);
 }

@@ -22,7 +22,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_comboReplace_2_currentTextChanged(const QString &arg1);
+
+    void on_comboBox_Directory_editTextChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
