@@ -8,6 +8,7 @@
 #include <QtGui/QMainWindow>
 #endif
 
+#include <QDir>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,7 +21,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_comboReplace_2_currentTextChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
+    bool buildInverted(QDir dir);
 };
 #endif // MAINWINDOW_H
