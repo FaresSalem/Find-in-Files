@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>927</width>
-    <height>422</height>
+    <width>676</width>
+    <height>385</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <layout class="QGridLayout" name="gridLayout_3">
+     <layout class="QGridLayout" name="gridLayout_1">
       <property name="leftMargin">
        <number>6</number>
       </property>
@@ -26,87 +26,11 @@
       <property name="spacing">
        <number>0</number>
       </property>
-      <item row="3" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QGroupBox" name="searchMode_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="title">
-           <string>Search Mode</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <property name="spacing">
-            <number>4</number>
-           </property>
-           <property name="topMargin">
-            <number>4</number>
-           </property>
-           <property name="bottomMargin">
-            <number>4</number>
-           </property>
-           <item>
-            <widget class="QRadioButton" name="radioNormalSearch_3">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Normal</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="radioRegexSearch_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Re&amp;gular expression</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+      <item row="3" column="0" colspan="2">
+       <widget class="QListWidget" name="listWidget"/>
       </item>
       <item row="2" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_1" stretch="0">
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -120,12 +44,30 @@
          <number>12</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <property name="spacing">
-           <number>8</number>
+         <layout class="QGridLayout" name="gridLayout_1_1">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
           </property>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="comboReplace_2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing">
+           <number>13</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_Directory">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -143,41 +85,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="3">
-           <widget class="QComboBox" name="comboFind_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-            <property name="maxCount">
-             <number>10</number>
-            </property>
-            <property name="insertPolicy">
-             <enum>QComboBox::NoInsert</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QToolButton" name="toolButton">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QCheckBox" name="checkBox">
-            <property name="text">
-             <string>Follow current directory</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="labelReplaceWith_2">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_Directory">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -186,8 +95,27 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="1" colspan="3">
+           <widget class="QComboBox" name="comboBox_FindWhat">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="maxCount">
+             <number>10</number>
+            </property>
+            <property name="insertPolicy">
+             <enum>QComboBox::NoInsert</enum>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="label_FindWhat">
             <property name="text">
              <string>Find what:</string>
             </property>
@@ -196,53 +124,19 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="2">
+           <widget class="QToolButton" name="popDirButton">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>17</width>
-            <height>13</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBoxMatchWholeWord_3">
-          <property name="text">
-           <string>Match &amp;whole word only</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBoxMatchCase_3">
-          <property name="text">
-           <string>Match &amp;case</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
-      <item row="3" column="1">
-       <widget class="QListWidget" name="listWidget">
-        <item>
-         <property name="text">
-          <string>New Item</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>New Item</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item row="2" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_9">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
          <number>6</number>
         </property>
@@ -253,7 +147,7 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QPushButton" name="buttonFind_3">
+         <widget class="QPushButton" name="buttonFindAll">
           <property name="text">
            <string>Find All</string>
           </property>
@@ -266,7 +160,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="buttonClose_3">
+         <widget class="QPushButton" name="buttonExit">
           <property name="text">
            <string>Exit</string>
           </property>
@@ -274,19 +168,6 @@
            <bool>false</bool>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -319,7 +200,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonClose_3</sender>
+   <sender>buttonExit</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
