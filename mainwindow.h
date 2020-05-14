@@ -9,6 +9,7 @@
 #endif
 
 #include <QDir>
+#include <inverted_index.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -27,6 +28,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    bool buildInverted(QDir dir);
+    bool preBuildInverted(QDir dir);
+    inverted_index inv_index;
 };
 #endif // MAINWINDOW_H

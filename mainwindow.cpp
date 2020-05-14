@@ -16,7 +16,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::buildInverted(QDir dir)
+bool MainWindow::preBuildInverted(QDir dir)
 {
     bool done = false;
 
@@ -31,16 +31,18 @@ bool MainWindow::buildInverted(QDir dir)
         QString content = ifile.readAll();
         // extract words
         QStringList list = content.split(" ");
-        foreach(QString word,list)
-            qDebug() <<word;
+            inv_index.build_inverted_index(list,filename,done);
+//        foreach(QString word,list)
+//            qDebug() <<word;
         ifile.close();
 
     }
+    inv_index.traverse_inverted_index();
     return !done;
 }
 
 
 void MainWindow::on_comboBox_Directory_editTextChanged(const QString &arg1)
 {
-    buildInverted(arg1);
+    preBuildInverted(arg1);
 }

@@ -20,6 +20,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    inverted_index.h \
     mainwindow.h
 
 FORMS += \
