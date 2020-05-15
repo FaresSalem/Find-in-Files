@@ -1,0 +1,36 @@
+// this class is considered as an interface between database and inverted_index class
+
+struct special_data_type
+{
+	string word_name;
+	list<small_data_type> special_list;
+};
+
+class pseudo_inverted_index
+{
+private:
+	list<special_data_type> special_array[big_buckets];
+public:
+	list<small_data_type>* search(string word);
+};
+
+list<small_data_type> info_list;
+list<small_data_type>* pseudo_inverted_index::search(string word)
+{
+	info_list.clear();
+	unsigned short big_index = big_hash_fun(word);
+	for (auto big_it=(special_array[big_index]).begin();big_it!=(special_array[big_index]).end();big_it++)
+	{
+		if (big_it->word_name == word)
+		{
+			for(auto small_it=(big_it->special_list).begin();
+				small_it!=(big_it->special_list).end();small_it++)
+			{
+				info_list.push_back(*small_it);
+			}
+			return &info_list;
+		}
+	}
+
+	return &info_list;
+}
