@@ -61,7 +61,7 @@ private:
 public:
         void build_inverted_index(QStringList &wordsList,QString file,bool done);
         bool createDB(QDir dir);
-        QList<big_data_type_ass>* returnDB(QDir dir);
+        bool returnDB(QDir dir);
         void traverse_inverted_index(); // just for testing , will  be removed when building real database
         list<small_data_type>* search(QString word);
 

@@ -1,7 +1,7 @@
 #include <QDir>
 #include <inverted_index.h>
 list<small_data_type> info_list;
-QList<big_data_type_ass> bigArray;
+QList<big_data_type_ass> bigArray[big_buckets];
 //QDataStream &operator<<(QDataStream& out, const QList<big_data_type> &big_array )
 //{
 //    big_array.begin()->word_name;
@@ -224,9 +224,10 @@ bool inverted_index::createDB(QDir dir)
         {
                 if (!((big_array[i]).empty()))
                 {
+                    out << i <<" " <<big_array[i].size()<<"\n";
                         for (auto big_it=(big_array[i]).begin();big_it!=(big_array[i]).end();big_it++)
                         {
-                                out<< big_it->word_name <<" ";
+                                out<< big_it->word_name <<"\n";
                                 for (unsigned short j=0;j<small_buckets;j++)
                                 {
                                         if (!(((big_it->small_arr)[j]).empty()))
@@ -234,14 +235,16 @@ bool inverted_index::createDB(QDir dir)
                                                 for (auto small_it=((big_it->small_arr)[j]).begin();
                                                                 small_it!=((big_it->small_arr)[j]).end();small_it++)
                                                 {
-                                                    out << small_it->file_name<<" "  ;
-                                                    out<< QString::number(small_it->word_count)<<" " ;
+                                                    out << small_it->file_name<<" "<< QString::number(small_it->word_count)<<" "   ;
+
                                                 }
+
                                         }
                                 }
                                 out <<"\n";
                         }
                 }
+
         }
         file.close();
 
@@ -249,36 +252,45 @@ bool inverted_index::createDB(QDir dir)
     }
 
 }
-QList<big_data_type_ass>* inverted_index::returnDB(QDir dir)
+bool inverted_index::returnDB(QDir dir)
 {
-    QString absolute_file_path = dir.absoluteFilePath(".ii");
-    QFile file(absolute_file_path);
-    if (!file.exists())
-                createDB(dir);
+    QString absolute_file = dir.absoluteFilePath(".ii");
+    QFile file(absolute_file);
+     //big_array->erase(big_array->begin(),big_array->end());
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() <<"false";
+        return false;
             }
         QTextStream in(&file);
+
         while (!in.atEnd())
            {
               big_data_type_ass big;
               small_data_type files;
-              QList<small_data_type>filesList;
               QString line = in.readLine();
               QStringList list = line.split(" ");
-              big.word_name=list[0];
-              qDebug() <<big.word_name<<" ";
-              for(int j=1;j<list.size()-1;j+=2)
+              int bigit=list[0].toInt();
+              int bigsize=list[1].toInt();
+
+              qDebug() <<bigit<<" "<<bigsize;
+              for (int i=0;i<bigsize;i++)
               {
-                  qDebug() <<list[j]<<" "<<list[j+1]<<" ";
-                  files.file_name=list[j];
-                  files.word_count=list[j+1].toUShort();
-                  filesList.push_back(files);
+                  QString newline = in.readLine();
+                  //qDebug()<<newline;
+                   big.word_name=newline;
+                   newline = in.readLine();
+                   list = newline.split(" ");
+                   for (int i=0;i<list.size()-1;i+=2)
+                   {
+                       files.file_name=list[i];
+                       files.word_count=list[i+1].toUShort();
+                       //qDebug() <<files.file_name<<" "<<files.word_count;
+                       big.small_arr.push_back(files);
+                   }
+                   bigArray[bigit].push_back(big);
+                   //qDebug() <<bigArray[bigit].last().word_name<<bigArray[bigit].last().small_arr.last().file_name;
               }
-                qDebug()<< "\n";
-                big.small_arr=filesList;
-                bigArray.push_back(big);
-                filesList.clear();
-           }
-        return &bigArray;
+
+         }
+        return true;
 }

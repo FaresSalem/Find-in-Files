@@ -20,9 +20,17 @@ MainWindow::~MainWindow()
 bool MainWindow::preBuildInverted(QDir dir)
 {
     bool done = false;
+    QString absolute_file = dir.absoluteFilePath(".ii");
+    QFile file(absolute_file);
+    if (!file.exists())
+    {
 
     QStringList files = dir.entryList(QStringList() << "*.txt" ,QDir::Files);
+    int filesCount=files.size();
     foreach(QString filename, files) {
+        filesCount--;
+        if (filesCount==0)
+            done=true;
     QString absolute_file_path = dir.absoluteFilePath(filename);
     qDebug() << filename;
     QFile ifile(absolute_file_path);
@@ -38,10 +46,13 @@ bool MainWindow::preBuildInverted(QDir dir)
         ifile.close();
 
     }
+    inv_index.createDB(dir);
+    }
     //inv_index.traverse_inverted_index();
     //inv_index.createDB(dir);
-    inv_index.returnDB(dir);
-    return !done;
+    else
+        inv_index.returnDB(dir);
+    return done;
 }
 
 
