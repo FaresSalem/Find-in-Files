@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QFileDialog>
 #include <QProgressDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,7 +42,9 @@ bool MainWindow::preBuildInverted(QDir dir)
         ifile.close();
 
     }
-    inv_index.traverse_inverted_index();
+    //inv_index.traverse_inverted_index();
+    //inv_index.createDB(dir);
+    inv_index.returnDB(dir);
     return !done;
 }
 
