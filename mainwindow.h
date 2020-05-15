@@ -26,6 +26,8 @@ private slots:
 
     void on_comboBox_Directory_editTextChanged(const QString &arg1);
 
+    void on_popDirButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool preBuildInverted(QDir dir);

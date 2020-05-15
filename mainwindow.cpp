@@ -4,12 +4,16 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
+#include <QFileDialog>
+#include <QProgressDialog>
 #include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 MainWindow::~MainWindow()
@@ -60,3 +64,20 @@ void MainWindow::on_comboBox_Directory_editTextChanged(const QString &arg1)
 {
     preBuildInverted(arg1);
 }
+
+void MainWindow::on_popDirButton_clicked()
+{
+    QFileDialog dialog(this);
+    QString path;
+    dialog.setFileMode(QFileDialog::Directory);
+    //path = dialog.QFileDialog::getOpenFileName(this, tr("Browse For Folder"));
+    path = dialog.QFileDialog::getExistingDirectory();
+    ui->comboBox_Directory->setEditText(path);
+
+    // we should start indexing when pressing Find All
+    QProgressDialog progress(this);
+    progress.show();
+   // progress.setWindowModality(Qt::WindowModality);
+}
+
+
