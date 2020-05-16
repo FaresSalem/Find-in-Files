@@ -55,7 +55,7 @@ bool MainWindow::preBuildInverted(QDir dir)
     //inv_index.traverse_inverted_index();
     //inv_index.createDB(dir);
     else
-        inv_index.returnDB(dir);
+        p_ii.returnDB(dir);
     return done;
 }
 

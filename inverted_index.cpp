@@ -1,13 +1,15 @@
 #include <QDir>
 #include <inverted_index.h>
 list<small_data_type> info_list;
-QList<big_data_type_ass> bigArray[big_buckets];
+QList<special_data_type> bigArray[big_buckets];
 //QDataStream &operator<<(QDataStream& out, const QList<big_data_type> &big_array )
 //{
 //    big_array.begin()->word_name;
 //    return out;
 //}
-unsigned short inverted_index::big_hash_fun(QString word)
+// this class is considered as an interface between database and inverted_index class
+
+unsigned short big_hash_fun(QString word)
 {
         unsigned short total=0;
         unsigned short len = word.size();
@@ -18,6 +20,29 @@ unsigned short inverted_index::big_hash_fun(QString word)
         return total%big_buckets;
 
 }
+
+
+list<small_data_type>* pseudo_inverted_index::search(QString word)
+{
+    info_list.clear();
+    unsigned short big_index =big_hash_fun(word);
+    for (auto big_it=(special_array[big_index]).begin();big_it!=(special_array[big_index]).end();big_it++)
+    {
+        if (big_it->word_name == word)
+        {
+            for(auto small_it=(big_it->special_list).begin();
+                small_it!=(big_it->special_list).end();small_it++)
+            {
+                info_list.push_back(*small_it);
+            }
+            return &info_list;
+        }
+    }
+
+    return &info_list;
+}
+
+
 unsigned short inverted_index::small_hash_fun(QString file)
 {
         unsigned short total=0;
@@ -252,11 +277,11 @@ bool inverted_index::createDB(QDir dir)
     }
 
 }
-bool inverted_index::returnDB(QDir dir)
+bool pseudo_inverted_index::returnDB(QDir dir)
 {
     QString absolute_file = dir.absoluteFilePath(".ii");
     QFile file(absolute_file);
-     //big_array->erase(big_array->begin(),big_array->end());
+     special_array->erase(special_array->begin(),special_array->end());
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() <<"false";
         return false;
@@ -265,7 +290,7 @@ bool inverted_index::returnDB(QDir dir)
 
         while (!in.atEnd())
            {
-              big_data_type_ass big;
+              special_data_type big;
               small_data_type files;
               QString line = in.readLine();
               QStringList list = line.split(" ");
@@ -285,10 +310,10 @@ bool inverted_index::returnDB(QDir dir)
                        files.file_name=list[i];
                        files.word_count=list[i+1].toUShort();
                        //qDebug() <<files.file_name<<" "<<files.word_count;
-                       big.small_arr.push_back(files);
+                       big.special_list.push_back(files);
                    }
-                   bigArray[bigit].push_back(big);
-                   //qDebug() <<bigArray[bigit].last().word_name<<bigArray[bigit].last().small_arr.last().file_name;
+                   special_array[bigit].push_back(big);
+                    qDebug() <<special_array[bigit].back().word_name<<special_array[bigit].back().special_list.back().file_name;
               }
 
          }

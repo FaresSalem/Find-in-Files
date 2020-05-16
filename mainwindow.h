@@ -32,5 +32,6 @@ private:
     Ui::MainWindow *ui;
     bool preBuildInverted(QDir dir);
     inverted_index inv_index;
+    pseudo_inverted_index p_ii;
 };
 #endif // MAINWINDOW_H

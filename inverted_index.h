@@ -38,17 +38,27 @@ struct big_data_type
         QList<small_data_type> small_arr[small_buckets];
         unsigned short max_small_elements=3;
 };
-struct big_data_type_ass
+struct special_data_type
 {
-        QString word_name;
-        QList<small_data_type> small_arr;
+    QString word_name;
+    QList<small_data_type> special_list;
 };
+
+class pseudo_inverted_index
+{
+private:
+    list<special_data_type> special_array[big_buckets];
+public:
+    list<small_data_type>* search(QString word);
+    bool returnDB(QDir dir);
+};
+
 class inverted_index
 {
 private:
         QList<big_data_type> big_array[big_buckets];
 
-        unsigned short big_hash_fun(QString word);
+        //unsigned short big_hash_fun(QString word);
 
         unsigned short small_hash_fun(QString file);
         bool is_word_found(QString word);
