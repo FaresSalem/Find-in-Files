@@ -249,7 +249,7 @@ bool inverted_index::createDB(QDir dir)
         {
                 if (!((big_array[i]).empty()))
                 {
-                    out << i <<" " <<big_array[i].size()<<"\n";
+                    // out << i <<" " <<big_array[i].size()<<"\n";
                         for (auto big_it=(big_array[i]).begin();big_it!=(big_array[i]).end();big_it++)
                         {
                                 out<< big_it->word_name <<"\n";
@@ -260,7 +260,7 @@ bool inverted_index::createDB(QDir dir)
                                                 for (auto small_it=((big_it->small_arr)[j]).begin();
                                                                 small_it!=((big_it->small_arr)[j]).end();small_it++)
                                                 {
-                                                    out << small_it->file_name<<" "<< QString::number(small_it->word_count)<<" "   ;
+                                                    out << small_it->file_name << " " << QString::number(small_it->word_count) << " ";
 
                                                 }
 

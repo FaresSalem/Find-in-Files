@@ -5,8 +5,7 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QFileDialog>
-#include <QProgressDialog>
-#include <QMessageBox>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -59,25 +58,83 @@ bool MainWindow::preBuildInverted(QDir dir)
     return done;
 }
 
-
-void MainWindow::on_comboBox_Directory_editTextChanged(const QString &arg1)
-{
-    preBuildInverted(arg1);
-}
-
 void MainWindow::on_popDirButton_clicked()
 {
     QFileDialog dialog(this);
-    QString path;
     dialog.setFileMode(QFileDialog::Directory);
-    //path = dialog.QFileDialog::getOpenFileName(this, tr("Browse For Folder"));
+    QString path;
     path = dialog.QFileDialog::getExistingDirectory();
     ui->comboBox_Directory->setEditText(path);
-
-    // we should start indexing when pressing Find All
-    QProgressDialog progress(this);
-    progress.show();
-   // progress.setWindowModality(Qt::WindowModality);
 }
 
+void MainWindow::on_buttonFindAll_clicked()
+{
+    QString path = ui->comboBox_Directory->currentText() + "/.ii";
+    QFile file(path);
+
+    // if .ii isn't built, call preBuildInverted(directory)
+    if(!file.exists(path))
+    {
+        ui->statusbar->showMessage("Building ...");
+        preBuildInverted(path);
+    }
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        ui->tableWidget->clearContents();
+        ui->statusbar->showMessage("File wasn't opened");
+    }
+    QTextStream file_text(&file);
+    QString find_this = ui->comboBox_FindWhat->currentText();
+
+    while(!file_text.atEnd())
+    {
+        ui->statusbar->showMessage("Searching ...");
+        QString line = file_text.readLine();
+        if (line == find_this)
+        {
+            ui->statusbar->showMessage("Found Successfully");
+            QString found = file_text.readLine();
+            QStringList list = found.split(" ");
+            ui->tableWidget->setRowCount(list.length()/2);
+
+            for (int row(0), i(0); row < list.length()/2; ++row)
+            {
+                ui->tableWidget->setItem(row, 0, new QTableWidgetItem(list[i]));
+
+                QTableWidgetItem* word_count = new QTableWidgetItem(list[i+1]);
+                word_count->setFlags(Qt::ItemIsEnabled);
+                ui->tableWidget->setItem(row, 1, word_count);
+                i+=2;
+            }
+
+            return;
+        }
+
+        else
+        {
+            ui->tableWidget->clearContents();
+            ui->statusbar->showMessage("Found nothing");
+        }
+    }
+}
+
+void MainWindow::on_tableWidget_cellDoubleClicked()
+{
+    if (ui->tableWidget->currentItem()->column() == 0)
+    {
+        QProcess *proc = new QProcess(this);
+        QStringList file_name;
+        QString file_path = ui->comboBox_Directory->currentText();
+        file_path += "/";
+        file_path += ui->tableWidget->currentItem()->text();
+        file_name.append(file_path);
+
+        #ifdef WIN32
+        proc->start("notepad.exe", file_name);
+        #else   // use nano for UNIX
+        proc->start("nano", file_name);
+        #endif
+    }
+}
 

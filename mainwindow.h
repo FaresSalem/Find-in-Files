@@ -10,6 +10,7 @@
 
 #include <QDir>
 #include <inverted_index.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -23,10 +24,9 @@ public:
     ~MainWindow();
 
 private slots:
-
-    void on_comboBox_Directory_editTextChanged(const QString &arg1);
-
     void on_popDirButton_clicked();
+    void on_buttonFindAll_clicked();
+    void on_tableWidget_cellDoubleClicked();
 
 private:
     Ui::MainWindow *ui;
@@ -34,4 +34,5 @@ private:
     inverted_index inv_index;
     pseudo_inverted_index p_ii;
 };
+
 #endif // MAINWINDOW_H
