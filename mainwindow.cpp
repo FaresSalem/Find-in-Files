@@ -98,6 +98,9 @@ void MainWindow::on_buttonFindAll_clicked()
             QStringList list = found.split(" ");
             ui->tableWidget->setRowCount(list.length()/2);
 
+            QStringList file_name;
+            QString file_path;
+
             for (int row(0), i(0); row < list.length()/2; ++row)
             {
                 ui->tableWidget->setItem(row, 0, new QTableWidgetItem(list[i]));
@@ -106,7 +109,26 @@ void MainWindow::on_buttonFindAll_clicked()
                 word_count->setFlags(Qt::ItemIsEnabled);
                 ui->tableWidget->setItem(row, 1, word_count);
                 i+=2;
+
+                if (ui->AutoOpen->isChecked()){
+                    QProcess *proc = new QProcess();
+                    file_path = ui->comboBox_Directory->currentText();
+                    file_path += "/";
+                    if (list[i].length() > 1)
+                    {
+                        file_path += list[i];
+                        file_name.clear();
+                        file_name.append(file_path);
+
+                        #ifdef WIN32
+                        proc->start("notepad.exe", file_name);
+                        #else   // use nano for UNIX
+                        proc->start("nano", file_name);
+                        #endif
+                    }
+                }
             }
+
 
             return;
         }
