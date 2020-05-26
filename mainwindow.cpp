@@ -76,7 +76,8 @@ void MainWindow::on_buttonFindAll_clicked()
     if(!file.exists(path))
     {
         ui->statusbar->showMessage("Building ...");
-        preBuildInverted(path);
+        QString temp = ui->comboBox_Directory->currentText();
+        preBuildInverted(temp);
     }
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
