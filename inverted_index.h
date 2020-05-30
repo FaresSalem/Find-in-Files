@@ -1,9 +1,6 @@
 #ifndef INVERTED_INDEX_H
 #define INVERTED_INDEX_H
 
-
-
-
 #include<iostream>
 #include <QString>
 #include <list>
@@ -58,8 +55,6 @@ class inverted_index
 private:
         QList<big_data_type> big_array[big_buckets];
 
-        //unsigned short big_hash_fun(QString word);
-
         unsigned short small_hash_fun(QString file);
         bool is_word_found(QString word);
         void insert_word(QString word);
@@ -72,10 +67,7 @@ public:
         void build_inverted_index(QStringList &wordsList,QString file,bool done);
         bool createDB(QDir dir);
         bool returnDB(QDir dir);
-        void traverse_inverted_index(); // just for testing , will  be removed when building real database
         list<small_data_type>* search(QString word);
-
-
 };
 
 

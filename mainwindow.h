@@ -7,7 +7,6 @@
 #else
 #include <QtGui/QMainWindow>
 #endif
-
 #include <QDir>
 #include <inverted_index.h>
 

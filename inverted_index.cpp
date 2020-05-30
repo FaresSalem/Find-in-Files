@@ -187,30 +187,6 @@ void inverted_index::build_inverted_index(QStringList &wordsList,QString file,bo
     }
 }
 
-void inverted_index::traverse_inverted_index() // just for testing , will  be removed when building real database
-{
-for (unsigned short i=0;i<big_buckets;i++)
-{
-        if (!((big_array[i]).empty()))
-        {
-                for (auto big_it=(big_array[i]).begin();big_it!=(big_array[i]).end();big_it++)
-                {
-                        qDebug()<< "\tthe word: " << big_it->word_name << " exists in \n\n";
-                        for (unsigned short j=0;j<small_buckets;j++)
-                        {
-                                if (!(((big_it->small_arr)[j]).empty()))
-                                {
-                                        for (auto small_it=((big_it->small_arr)[j]).begin();
-                                                        small_it!=((big_it->small_arr)[j]).end();small_it++)
-                                        {
-                                                 qDebug()<< small_it->file_name << " and repeated " << small_it->word_count <<" time(s)\n";
-                                        }
-                                }
-                        }
-                }
-        }
-}
-}
 
 list<small_data_type>* inverted_index::search(QString word)
 {
@@ -239,6 +215,7 @@ bool inverted_index::createDB(QDir dir)
     qDebug()<<"here";
     QString absolute_file_path = dir.absoluteFilePath(".ii");
     QFile file(absolute_file_path);
+    qDebug() << file << endl;
     if (!file.open(QIODevice::WriteOnly)) {
                 return false;
             }
