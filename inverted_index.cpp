@@ -1,6 +1,6 @@
 #include <QDir>
 #include <inverted_index.h>
-list<small_data_type> info_list;
+QList<small_data_type> info_list;
 QList<special_data_type> bigArray[big_buckets];
 //QDataStream &operator<<(QDataStream& out, const QList<big_data_type> &big_array )
 //{
@@ -215,7 +215,6 @@ bool inverted_index::createDB(QDir dir)
     qDebug()<<"here";
     QString absolute_file_path = dir.absoluteFilePath(".ii");
     QFile file(absolute_file_path);
-    qDebug() << file << endl;
     if (!file.open(QIODevice::WriteOnly)) {
                 return false;
             }

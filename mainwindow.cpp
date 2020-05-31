@@ -44,17 +44,12 @@ bool MainWindow::preBuildInverted(QDir dir)
         // extract words
         QStringList list = content.split(" ");
             inv_index.build_inverted_index(list,filename,done);
-//        foreach(QString word,list)
-//            qDebug() <<word;
         ifile.close();
 
     }
     inv_index.createDB(dir);
     }
-    //inv_index.traverse_inverted_index();
-    //inv_index.createDB(dir);
-    else
-        p_ii.returnDB(dir);
+    p_ii.returnDB(dir);
     return done;
 }
 
@@ -124,7 +119,7 @@ void MainWindow::on_buttonFindAll_clicked()
                         #ifdef WIN32
                         proc->start("notepad.exe", file_name);
                         #else   // use nano for UNIX
-                        proc->start("nano", file_name);
+                        proc->start("code", file_name);
                         #endif
                     }
                 }
@@ -156,7 +151,7 @@ void MainWindow::on_tableWidget_cellDoubleClicked()
         #ifdef WIN32
         proc->start("notepad.exe", file_name);
         #else   // use nano for UNIX
-        proc->start("nano", file_name);
+        proc->start("code", file_name);
         #endif
     }
 }
