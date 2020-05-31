@@ -1,7 +1,7 @@
 #include <QDir>
 #include <inverted_index.h>
-QList<small_data_type> info_list;
-list<special_data_type> bigArray[big_buckets];
+list<small_data_type> info_list;
+QList<special_data_type> bigArray[big_buckets];
 //QDataStream &operator<<(QDataStream& out, const QList<big_data_type> &big_array )
 //{
 //    big_array.begin()->word_name;
